@@ -3,8 +3,8 @@
 "comment" : "Control jenkins node with regex filter",
 "parameters" : [
   {
-    "enable - may be true or false",
-    "regex - any regular expression"
+    enable: "may be true or false",
+    regex: "any regular expression"
   }
 ],
 "core": "1.2",
