@@ -1,14 +1,15 @@
 /*** BEGIN META {
-"name" : "Mark all agents temporary offline",
-"comment" : "Mark all agents temporary offline",
+"name" : "Node Switcher"",
+"comment" : "Control jenkins node with regex filter",
 "parameters" : [
-  { "enable - may be true or false",
+  {
+    "enable - may be true or false",
     "regex - any regular expression"
   }
 ],
-"core": "1.1",
+"core": "1.2",
 "authors" : [
-  { name : "Stanislav Korolev - skorolev@tradingview.com" }
+  { name : "Stanislav Korolev - teeroo@yandex.ru" }
 ]
 } END META ***/
 
@@ -21,7 +22,6 @@ def BusyNodeList = []
 def jenkinsNodes = Jenkins.instance.nodes
 
 def nodeEnabler(node, newstate, expression=''){
-  // Make sure slave is offline and that the slave is free of running jobs
   String node_name = node.nodeName;
   if (expression != '') {
     if (node_name.matches(expression)) {
@@ -47,13 +47,12 @@ def nodeSwitcher(node, nstate) {
       println("unknown state")
       return false;
   }
-  //println("try to swtch node ${node} to state ${state}")
   switchNode(node, state, tempOffline)
 }
 
 def switchNode(node, state, tempOffline) {
   nodeOffline = node.getComputer().isOffline()
-  if (nodeOffline && state == 'enable') // && node.getComputer().countBusy()==0)
+  if (nodeOffline && state == 'enable')
   {
     println "${state} ${node.nodeName}"
     node.getComputer().setTemporarilyOffline(tempOffline, null);
